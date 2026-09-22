@@ -49,29 +49,80 @@ ctx.drawImage(frameImg, 0, 0, width, height)
 
 ## cover 铺满
 
-目标：照片铺满画布，不拉伸，多出来的部分裁掉，不留白边。
+题目要的是：照片铺满整张画布，人物不发胖也不被拉高，多出来的边裁掉，四周不能留白。
+
+宽和高必须乘**同一个**倍数。倍数只有一个，宽高比就还是原图的宽高比，所以不会变形。
+
+考场上按这四步算，不要背中间的数字。
+
+### 1. 两个倍率
+
+画布宽 `W`、高 `H`。照片宽 `img.width`、高 `img.height`。
 
 ```js
-function drawCover(ctx, img, width, height) {
-  const scale = Math.max(width / img.width, height / img.height)
+const scaleX = W / img.width   // 让照片的宽刚好等于画布，要乘多少
+const scaleY = H / img.height  // 让照片的高刚好等于画布，要乘多少
+```
+
+### 2. 选较大的那个
+
+```js
+const scale = Math.max(scaleX, scaleY)
+```
+
+只满足较小的那个时，另一边会短一截，画布上就出现白边。取较大的那个，短的那边会超出画布，超出的部分被画布边缘裁掉。这就是 cover。`Math.min` 是 contain，会留白，这题不能用。
+
+### 3. 乘回宽高
+
+```js
+const w = img.width * scale
+const h = img.height * scale
+```
+
+`w / h` 仍然等于 `img.width / img.height`。比例没变。
+
+### 4. 居中，多出来的放到画布外面
+
+```js
+const x = (W - w) / 2
+const y = (H - h) / 2
+ctx.drawImage(img, x, y, w, h)
+```
+
+超出的那边，`W - w` 是负数，除以 2 之后起点在画布左边或上边的外面。`drawImage` 允许画出界，出界的像素不显示，看起来就是裁切并且居中。
+
+合在一起：
+
+```js
+function drawCover(ctx, img, W, H) {
+  const scale = Math.max(W / img.width, H / img.height)
   const w = img.width * scale
   const h = img.height * scale
-  ctx.drawImage(img, (width - w) / 2, (height - h) / 2, w, h)
+  ctx.drawImage(img, (W - w) / 2, (H - h) / 2, w, h)
 }
 ```
 
-`width / img.width` 是「为了让照片宽度刚好等于画布，要放大多少」。高同理。`Math.max` 取更大的那个倍率，短边也会超出画布，超出的部分自然被裁掉。`(width - w) / 2` 是负数或零，把多出来的一半放到画布左边外面，看起来就是居中。
+### 横图：2000×1000 放进 1080×1080
 
-数字例子：2000×1000 的横图放进 1080×1080。
+- `scaleX = 1080 / 2000 = 0.54`，按这个乘，高只剩 `1000 × 0.54 = 540`，上下各空 270
+- `scaleY = 1080 / 1000 = 1.08`，按这个乘，宽变成 `2000 × 1.08 = 2160`，比画布宽
+- 取 `1.08`。画上去是 2160×1080
+- `x = (1080 - 2160) / 2 = -540`，左右各裁掉 540
+- `y = (1080 - 1080) / 2 = 0`，上下贴齐
 
-- 宽的倍率 `1080 / 2000 = 0.54`
-- 高的倍率 `1080 / 1000 = 1.08`
-- `Math.max` 得 1.08，画上去是 2160×1080，x 是 `(1080 - 2160) / 2 = -540`
-- 上下刚好贴齐，左右被裁掉，没有白边
+没有白边，人也没有被拉高。
 
-`Math.min` 得 0.54，画上去是 1080×540，上下各空 270px。那是 contain，题目不要。
+### 竖图：1000×2000 放进 1080×1080
 
-竖图反过来：宽的倍率更大，左右贴齐，上下被裁。
+- `scaleX = 1080 / 1000 = 1.08`
+- `scaleY = 1080 / 2000 = 0.54`
+- 取 `1.08`。画上去是 1080×2160
+- `x = 0`，左右贴齐
+- `y = (1080 - 2160) / 2 = -540`，上下各裁掉 540
+
+正方形的图两个倍率相同，`x` 和 `y` 都是 0，正好铺满，不裁。
+
+画完用户的照片，再 `ctx.drawImage(frameImg, 0, 0, W, H)` 把相框盖上去。相框中间是透明的。
 
 ## naturalWidth 还是 0
 
