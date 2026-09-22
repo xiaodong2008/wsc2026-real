@@ -1,0 +1,50 @@
+# =====================================================================
+# Cloud Build — Node app (per-repo image, cache, and Kaniko layer cache)
+# Speed: High-CPU VM, GCS-cached node_modules, Kaniko layer cache
+# =====================================================================
+
+options:
+  # 8 vCPU / 8GB build VM (default is 2 vCPU)
+  machineType: 'E2_HIGHCPU_8'
+
+steps:
+  # Restore this repo's node_modules cache from GCS (per-repo key)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      echo "Restoring cache from GCS bucket if it exists..."
+      gcloud storage cp gs://nstrimio-build-cache/ws26-laravel/node_cache.tar.gz node_cache.tar.gz || true
+      if [ -f node_cache.tar.gz ]; then
+        tar -xzf node_cache.tar.gz
+      fi
+
+  # Install dependencies
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      npm install --prefer-offline --no-audit
+
+  # Save this repo's node_modules back to GCS (per-repo key)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      echo "Compressing and saving dependencies back to GCS..."
+      tar -czf node_cache.tar.gz node_modules
+      gcloud storage cp node_cache.tar.gz gs://nstrimio-build-cache/ws26-laravel/node_cache.tar.gz
+
+  # Build & push this repo's image with Kaniko (per-repo destination + layer cache)
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+    - --destination=europe-west1-docker.pkg.dev/nstrimio/cloud-run-source-deploy/ws26-laravel:latest
+    - --cache=true
+    - --cache-ttl=24h
+    - --cache-dir=gs://nstrimio-build-cache/ws26-laravel/kaniko-cache
+
+# Prevent hung tasks from consuming build quotas
+timeout: '1200s'

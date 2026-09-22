@@ -1,0 +1,16 @@
+# Normalise line endings on checkout.
+#
+# Git for Windows installs with core.autocrlf=true, which rewrites text files
+# with CRLF as they are checked out. For most files that is cosmetic. For a
+# shell script it is fatal: the shebang becomes `#!/usr/bin/env bash\r`, the
+# Linux image looks for a program literally named `bash\r`, and the container
+# dies before it starts with
+#
+#   env: 'bash\r': No such file or directory
+#   exit code 127
+#
+# This file overrides whatever the cloning machine has configured.
+* text=auto eol=lf
+
+# Stated again for the files where CRLF is fatal rather than cosmetic.
+*.sh text eol=lf

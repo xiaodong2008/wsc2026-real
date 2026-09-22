@@ -1,0 +1,41 @@
+# Every value below comes from .env — Compose reads that file automatically.
+# Start by copying the template:  cp .env.example .env
+#
+# The app and the database server therefore read the SAME credentials from the
+# SAME file, so they cannot drift apart, and no password is written down here.
+services:
+  app:
+    build: .
+    ports:
+      - "80:80"
+    # Hands the DB_* values to PHP as real environment variables.
+    env_file:
+      - .env
+    environment:
+      # Inside the compose network the database is reachable under its service
+      # name, whatever .env says for a competitor running PHP on their own machine.
+      DB_HOST: db
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+    ports:
+      - "3306:3306"
+    healthcheck:
+      # The app waits for this, so the first page load already has a database.
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:

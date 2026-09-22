@@ -1,0 +1,42 @@
+[
+  {
+    "id": "2",
+    "title": "Edge Networks",
+    "speaker": "Jane Smith",
+    "time": "10:00",
+    "endTime": "10:45",
+    "room": "room1",
+    "roomName": "Room 1",
+    "day": 1
+  },
+  {
+    "id": "6",
+    "title": "API Craft",
+    "speaker": "Alex Chen",
+    "time": "10:00",
+    "endTime": "10:45",
+    "room": "room1",
+    "roomName": "Room 1",
+    "day": 2
+  },
+  {
+    "id": "11",
+    "title": "Realtime Sync",
+    "speaker": "Alex Chen",
+    "time": "11:00",
+    "endTime": "11:45",
+    "room": "room1",
+    "roomName": "Room 1",
+    "day": 3
+  },
+  {
+    "id": "15",
+    "title": "Design Crit",
+    "speaker": "Maria Garcia",
+    "time": "11:00",
+    "endTime": "11:45",
+    "room": "room1",
+    "roomName": "Room 1",
+    "day": 4
+  }
+]

@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// Every project a competitor creates shares ONE MySQL database, so table names
+// are prefixed to keep them from colliding with their other applications.
+// Rename the prefix per project; do not drop it.
+model Task {
+  id    Int     @id @default(autoincrement())
+  title String  @db.VarChar(255)
+  done  Boolean @default(false)
+
+  @@map("express_tasks")
+}

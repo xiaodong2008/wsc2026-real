@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A12 check</title>
+  <link rel="stylesheet" href="../A12/style.css">
+  <style>html { font-size: 16px; }</style>
+</head>
+<body>
+  <div class="a3d" style="--n: 8">
+    <div class="card" style="--i: 0"><img alt=""></div>
+    <div class="card" style="--i: 1"><img alt=""></div>
+    <div class="card" style="--i: 2"><img alt=""></div>
+    <div class="card" style="--i: 3"><img alt=""></div>
+    <div class="card" style="--i: 4"><img alt=""></div>
+    <div class="card" style="--i: 5"><img alt=""></div>
+    <div class="card" style="--i: 6"><img alt=""></div>
+    <div class="card" style="--i: 7"><img alt=""></div>
+  </div>
+  <pre id="out"></pre>
+  <script>
+    const a3d = document.querySelector('.a3d');
+    const card = document.querySelector('.card');
+    const a3dCs = getComputedStyle(a3d);
+    const cardCs = getComputedStyle(card);
+    const bodyCs = getComputedStyle(document.body);
+    const transform = cardCs.transform;
+    const nums = transform.startsWith('matrix3d')
+      ? transform.slice(9, -1).split(',').map((part) => parseFloat(part))
+      : [];
+    const tz = nums[14];
+    const lines = [
+      'overflow=' + a3dCs.overflow,
+      'perspective=' + bodyCs.perspective,
+      'backface=' + cardCs.backfaceVisibility,
+      'anim=' + a3dCs.animationName,
+      'timing=' + a3dCs.animationTimingFunction,
+      'tz=' + tz,
+      'transform=' + transform.slice(0, 32),
+    ];
+    const ok = a3dCs.overflow === 'visible'
+      && bodyCs.perspective === '1200px'
+      && cardCs.backfaceVisibility === 'hidden'
+      && String(a3dCs.animationName).includes('a3d-spin')
+      && String(a3dCs.animationTimingFunction).includes('linear')
+      && tz > 320 && tz < 380;
+    document.querySelector('#out').textContent = (ok ? 'PASS' : 'FAIL') + '\n' + lines.join('\n');
+  </script>
+</body>
+</html>

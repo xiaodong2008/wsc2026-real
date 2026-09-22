@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A07 check</title>
+  <link rel="stylesheet" href="../A07/css/style.css">
+</head>
+<body>
+  <div class="sk sk--image" id="image"></div>
+  <div class="sk sk--chip" id="chip"></div>
+  <div class="sk sk--line sk--line-lg sk--w70" id="line"></div>
+  <pre id="out"></pre>
+  <script>
+    const image = document.getElementById('image');
+    const chip = document.getElementById('chip');
+    const line = document.getElementById('line');
+    const imageCs = getComputedStyle(image);
+    const chipCs = getComputedStyle(chip);
+    const lineCs = getComputedStyle(line);
+    const shine = getComputedStyle(image, '::after');
+    const lines = [
+      'overflow=' + imageCs.overflow,
+      'imageRadius=' + imageCs.borderRadius,
+      'chip=' + chipCs.width + 'x' + chipCs.height,
+      'lineWidth=' + lineCs.width,
+      'anim=' + shine.animationName,
+      'duration=' + shine.animationDuration,
+    ];
+    const ok = imageCs.overflow === 'hidden'
+      && imageCs.backgroundColor === 'rgb(226, 232, 240)'
+      && (imageCs.borderRadius === '0px' || imageCs.borderRadius === '0px 0px 0px 0px')
+      && chipCs.width === '84px'
+      && chipCs.height === '18px'
+      && parseFloat(lineCs.width) > 0
+      && String(shine.animationName).includes('sk-shimmer')
+      && shine.animationDuration === '1.4s';
+    document.querySelector('#out').textContent = (ok ? 'PASS' : 'FAIL') + '\n' + lines.join('\n');
+  </script>
+</body>
+</html>

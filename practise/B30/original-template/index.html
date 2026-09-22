@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>B30 · Font Hover</title>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+    span {
+      font-size: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="text"></div>
+</body>
+<script>
+  const text = 'WorldSkills Shanghai'
+  const els = []
+  text.split("").forEach(e => {
+    const el = document.createElement('span')
+    el.innerText = e
+    el.style = 'font-size'
+    document.querySelector('.text').appendChild(el)
+    els.push(el)
+  })
+  document.addEventListener('mousemove', e => {
+    console.log(e)
+    const [x,y] = [e.screenX, e.screenY]
+    for (el of els) {
+      // a*
+      const dis = Math.sqrt((Math.abs(el.offsetTop - y)) ** 2 + (Math.abs(el.offsetLeft - x)) ** 2) + 200
+      console.log(dis)
+      console.log(y,x)
+      console.log(el.offsetTop, el.offsetLeft)
+      el.style = 'font-weight: ' + (900 - dis)
+    }
+  })
+</script>
+</html>

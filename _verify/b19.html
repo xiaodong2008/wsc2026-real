@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>B19 check</title>
+  <style>
+    .slider { position: relative; width: 600px; height: 40px; }
+    #handle { position: absolute; width: 48px; height: 32px; }
+    #scene { width: 600px; height: 400px; position: relative; }
+    #hole, #piece { position: absolute; width: 60px; height: 60px; }
+  </style>
+</head>
+<body>
+  <div id="scene" style="position:relative;width:600px;height:400px"><div id="hole"></div><div id="piece"></div></div>
+  <div class="slider" style="position:relative;width:600px;height:40px"><div id="handle" style="position:absolute;width:48px;height:32px"></div></div>
+  <p id="status"></p>
+  <script src="../B19/script.js"></script>
+  <script>
+  try {
+    const target = parseFloat(hole.style.left);
+    const pos = piece.style.backgroundPosition.replace(/\s+/g, ' ').trim();
+    const handleMax = handle.parentElement.clientWidth - handle.offsetWidth;
+    const hx = target * handleMax / 540;
+    const pieceBefore = pos;
+    let dragError = '';
+    for (const event of [
+      new PointerEvent('pointerdown', { bubbles: true, clientX: 0, pointerId: 1 }),
+      new PointerEvent('pointermove', { bubbles: true, clientX: hx, pointerId: 1 }),
+      new PointerEvent('pointerup', { bubbles: true, clientX: hx, pointerId: 1 }),
+    ]) {
+      try {
+        handle.dispatchEvent(event);
+      } catch (err) {
+        dragError += event.type + ':' + err + '\n';
+      }
+    }
+    const snapped = Math.abs(parseFloat(piece.style.left) - target) < 0.6;
+    const ok = target >= 100
+      && target <= 540
+      && pos.indexOf('-' + target + 'px') === 0
+      && pos.indexOf('-100px') !== -1
+      && scene.classList.contains('solved')
+      && status.textContent === 'Success!'
+      && snapped;
+    document.body.insertAdjacentHTML('beforeend', '<pre id="result">' + (ok ? 'PASS' : 'FAIL')
+      + '\ntarget=' + target
+      + '\npos=' + pieceBefore
+      + '\nleft=' + piece.style.left
+      + '\nstatus=' + status.textContent
+      + '\ndragError=' + dragError
+      + '</pre>');
+  } catch (err) {
+    document.body.insertAdjacentHTML('beforeend', '<pre id="result">THREW ' + err + '</pre>');
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "room1",
+    "name": "Room 1",
+    "capacity": 40
+  },
+  {
+    "id": "room2",
+    "name": "Room 2",
+    "capacity": 30
+  },
+  {
+    "id": "room3",
+    "name": "Room 3",
+    "capacity": 24
+  },
+  {
+    "id": "room4",
+    "name": "Room 4",
+    "capacity": 18
+  },
+  {
+    "id": "hall",
+    "name": "Hall",
+    "capacity": 180
+  }
+]

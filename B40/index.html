@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>B40 · Scroll Ticker</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #111; color: #fff; }
+    .ticker { position: relative; width: 100%; height: 100vh; perspective: 800px; }
+    .item {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      white-space: nowrap;
+      font: 700 48px/1 system-ui, sans-serif;
+      will-change: transform;
+    }
+  </style>
+</head>
+<body>
+  <div class="ticker"></div>
+  <script>
+    const box = document.querySelector('.ticker');
+    const N = 9;
+    const SPACING = 130;
+    const TOTAL = N * SPACING;
+    const items = Array.from({ length: N }, () => {
+      const d = document.createElement('div');
+      d.className = 'item';
+      d.textContent = 'WORLDSKILLS';
+      box.appendChild(d);
+      return d;
+    });
+
+    let offset = 0;
+    function render() {
+      items.forEach((el, i) => {
+        const y = ((i * SPACING - offset) % TOTAL + TOTAL) % TOTAL - TOTAL / 2;
+        const t = Math.abs(y) / (TOTAL / 2);
+        el.style.transform =
+          `translate(-50%, -50%) translateY(${y}px) rotateX(${-y / (TOTAL / 2) * 55}deg) scale(${1 - .55 * t})`;
+        el.style.opacity = String(1 - .8 * t);
+        el.style.filter = `blur(${(t * 2).toFixed(2)}px)`;
+      });
+    }
+
+    addEventListener('wheel', (e) => {
+      e.preventDefault();
+      offset += e.deltaY;
+      render();
+    }, { passive: false });
+
+    render();
+  </script>
+</body>
+</html>

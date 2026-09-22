@@ -1,0 +1,22 @@
+{
+  "name": "ws26-expressjs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WSC2026 minimal Express application",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "db:migrate": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@prisma/adapter-mariadb": "7.3.0",
+    "@prisma/client": "7.3.0",
+    "dotenv": "17.2.3",
+    "express": "5.2.1",
+    "mariadb": "3.4.5"
+  },
+  "devDependencies": {
+    "prisma": "7.3.0"
+  }
+}

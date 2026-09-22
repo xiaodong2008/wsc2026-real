@@ -1,0 +1,55 @@
+/* Provided layout. On the day, add the hover rules and do not touch index.html. */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #111;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.container {
+  display: flex;
+  gap: 24px;
+}
+
+.card {
+  width: 250px;
+  height: 400px;
+  border-radius: 16px;
+  background-size: 140% 100%;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 40%, rgba(0, 0, 0, .72));
+  pointer-events: none;
+}
+
+.card-content {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 24px;
+  z-index: 1;
+  color: #fff;
+}
+
+.card-content h2,
+.card-content p {
+  margin: 0;
+}
+
+.card-content p {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, .8);
+}
+
+/* ===== DO NOT EDIT ABOVE THIS LINE ===== */

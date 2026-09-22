@@ -1,0 +1,20 @@
+# =====================================================================
+# Cloud Build — vanilla PHP/JS app (per-repo image + Kaniko layer cache)
+# No dependency install step: this repo has no package manager by design.
+# =====================================================================
+
+options:
+  # 8 vCPU / 8GB build VM (default is 2 vCPU)
+  machineType: 'E2_HIGHCPU_8'
+
+steps:
+  # Build & push this repo's image with Kaniko (per-repo destination + layer cache)
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+    - --destination=europe-west1-docker.pkg.dev/nstrimio/cloud-run-source-deploy/ws26-vanilla:latest
+    - --cache=true
+    - --cache-ttl=24h
+    - --cache-dir=gs://nstrimio-build-cache/ws26-vanilla/kaniko-cache
+
+# Prevent hung tasks from consuming build quotas
+timeout: '1200s'

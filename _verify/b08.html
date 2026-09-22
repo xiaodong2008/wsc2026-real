@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>B08 check</title>
+</head>
+<body>
+  <p>Favourites: <span id="favCount">0</span></p>
+  <ul id="playlist">
+    <li class="track" data-id="t1"><button class="fav" type="button">♥</button></li>
+    <li class="track" data-id="t2"><button class="fav" type="button">♥</button></li>
+  </ul>
+  <script src="../B08/js/script.js"></script>
+  <script>
+    const first = document.querySelector('.track');
+    document.querySelector('.fav').click();
+    const saved = JSON.parse(sessionStorage.getItem('wavelength-favs') || '[]');
+    const ok = first.classList.contains('track--fav')
+      && document.querySelector('#favCount').textContent === '1'
+      && saved.includes('t1')
+      && !document.querySelectorAll('.track')[1].classList.contains('track--fav');
+    document.body.insertAdjacentHTML('beforeend', '<pre id="out">' + (ok ? 'PASS' : 'FAIL') + '</pre>');
+  </script>
+</body>
+</html>

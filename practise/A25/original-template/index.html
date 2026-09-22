@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- Vanilla JavaScript entry point — start here for a JS project.
+     The markup below is static; scripts.js fills in the task list at runtime. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WSC2026 · Vanilla JavaScript</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="card">
+    <h1>Vanilla <span class="v">JavaScript</span></h1>
+    <p>WSC2026 Web Technologies — no framework, no build step. This list is fetched by
+      <code>scripts.js</code> from <code>api/tasks.php</code>.</p>
+
+    <ul id="tasks"><li>Loading…</li></ul>
+
+    <form id="add-task">
+      <input id="title" type="text" placeholder="Add a task…" required>
+      <button type="submit">Add</button>
+    </form>
+
+    <p class="alt">Building with plain PHP instead? → <a href="index.php">index.php</a></p>
+  </main>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

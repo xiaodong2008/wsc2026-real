@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>B30 · Font Hover</title>
+  <style>
+    html, body { margin: 0; height: 100%; }
+    body { display: grid; place-items: center; }
+    h1 { font-size: 4em; font-weight: 400; }
+    h1 span { display: inline-block; }
+  </style>
+</head>
+<body>
+  <h1>WorldSkills Shanghai</h1>
+  <script>
+    const h = document.querySelector('h1')
+    h.innerHTML = [...h.textContent].map((c) => `<span>${c === ' ' ? '&nbsp;' : c}</span>`).join('')
+
+    onmousemove = (e) => [...h.children].forEach((x) => {
+      const r = x.getBoundingClientRect()
+      const w = Math.max(0, 1 - Math.abs(e.clientX - r.left) / 100)
+      x.style.webkitTextStroke = `${w * 6}px black`
+    })
+  </script>
+</body>
+</html>

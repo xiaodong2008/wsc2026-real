@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*

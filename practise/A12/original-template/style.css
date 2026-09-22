@@ -1,0 +1,38 @@
+body {
+  display: grid;
+  height: 100vh;
+  place-items: center;
+  perspective: 1200px;
+}
+
+.a3d {
+  --w: 240px;
+  --angle: calc(1turn / var(--n));
+  --gap: 20px;
+  --r: calc((var(--w) + var(--gap)) / 2 / tan(var(--angle) / 2));
+  position: relative;
+  width: var(--w);
+  height: calc(var(--w) * 0.66);
+  transform-style: preserve-3d;
+  animation: spin 24s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotateY(-1turn);
+  }
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(calc(var(--i) * var(--angle))) translateZ(var(--r));
+  backface-visibility: hidden;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# Competition platform credentials. .env.example stays.
+.env
+.env.*
+!.env.example
+
+docs-site/docs/.vitepress/dist
+docs-site/docs/.vitepress/cache

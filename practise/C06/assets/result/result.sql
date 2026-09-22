@@ -1,0 +1,3 @@
+-- Write the SELECT in result/result.sql.
+-- Do not edit the page or this schema. Column names below are a reconstruction;
+-- on the day, use the columns shown in the media page.

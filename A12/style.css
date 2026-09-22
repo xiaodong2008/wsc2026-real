@@ -1,0 +1,48 @@
+/* Only this file is edited on the day. index.html stays as provided. */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  background: #070b14;
+  perspective: 1200px;
+}
+
+.a3d {
+  --w: 17.5em;
+  --gap: 0.6em;
+  --angle: calc(1turn / var(--n));
+  --r: calc((var(--w) + var(--gap)) / 2 / tan(var(--angle) / 2));
+
+  position: relative;
+  width: var(--w);
+  height: calc(var(--w) * 0.66);
+  transform-style: preserve-3d;
+  animation: a3d-spin 24s linear infinite;
+}
+
+@keyframes a3d-spin {
+  to { transform: rotateY(-1turn); }
+}
+
+.a3d .card {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(calc(var(--i) * var(--angle))) translateZ(var(--r));
+  border-radius: 1.5em;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+.a3d .card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

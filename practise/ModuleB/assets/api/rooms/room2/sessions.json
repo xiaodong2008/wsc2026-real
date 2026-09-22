@@ -1,0 +1,32 @@
+[
+  {
+    "id": "3",
+    "title": "Design Systems",
+    "speaker": "John Doe",
+    "time": "11:00",
+    "endTime": "11:45",
+    "room": "room2",
+    "roomName": "Room 2",
+    "day": 1
+  },
+  {
+    "id": "7",
+    "title": "Inclusive Interfaces",
+    "speaker": "Jane Smith",
+    "time": "11:00",
+    "endTime": "11:45",
+    "room": "room2",
+    "roomName": "Room 2",
+    "day": 2
+  },
+  {
+    "id": "12",
+    "title": "Typography",
+    "speaker": "Jane Smith",
+    "time": "14:00",
+    "endTime": "14:45",
+    "room": "room2",
+    "roomName": "Room 2",
+    "day": 3
+  }
+]

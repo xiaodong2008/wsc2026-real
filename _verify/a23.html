@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A23 check</title>
+  <link rel="stylesheet" href="../A23/style.css">
+</head>
+<body>
+  <div class="container">
+    <article class="card"><div class="card-content"><h2>North Pier</h2><p>Dawn shift</p></div></article>
+    <article class="card"><div class="card-content"><h2>Signal House</h2><p>Night watch</p></div></article>
+    <article class="card"><div class="card-content"><h2>East Wharf</h2><p>Last lamp</p></div></article>
+  </div>
+  <pre id="out"></pre>
+  <script>
+    const card = document.querySelector('.card');
+    const content = document.querySelector('.card-content');
+    const cardCs = getComputedStyle(card);
+    const contentCs = getComputedStyle(content);
+    const lines = [
+      'width=' + cardCs.width,
+      'height=' + cardCs.height,
+      'opacity=' + contentCs.opacity,
+      'transform=' + contentCs.transform,
+      'transition=' + cardCs.transitionProperty,
+    ];
+    const ok = cardCs.width === '250px'
+      && cardCs.height === '400px'
+      && contentCs.opacity === '0'
+      && contentCs.transform !== 'none'
+      && cardCs.transitionProperty.includes('background-position');
+    document.querySelector('#out').textContent = (ok ? 'PASS' : 'FAIL') + '\n' + lines.join('\n');
+  </script>
+</body>
+</html>

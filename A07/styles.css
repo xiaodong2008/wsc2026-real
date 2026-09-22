@@ -1,0 +1,67 @@
+/* Shared by index.php and index.html. Plain CSS — no preprocessor, no framework. */
+
+:root { color-scheme: dark; }
+
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #0b1020;
+  color: #e7ecff;
+}
+
+.card {
+  background: #151c33;
+  padding: 2.5rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .4);
+  max-width: 32rem;
+}
+
+h1 { margin: 0 0 .25rem; }
+.v { color: #7c9cff; font-weight: 600; }
+
+ul { line-height: 1.9; padding-left: 1.2rem; }
+
+code {
+  background: #0b1020;
+  padding: .15rem .4rem;
+  border-radius: 6px;
+}
+
+.warn { color: #ffb4a2; }
+
+.alt {
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #26304d;
+  font-size: .9rem;
+  color: #9aa6c8;
+}
+
+.alt a { color: #7c9cff; }
+
+form { display: flex; gap: .5rem; margin-top: 1rem; }
+
+input {
+  flex: 1;
+  font: inherit;
+  padding: .55rem .75rem;
+  border-radius: 8px;
+  border: 1px solid #26304d;
+  background: #0b1020;
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  font-weight: 600;
+  padding: .55rem 1.1rem;
+  border-radius: 8px;
+  border: 0;
+  background: #7c9cff;
+  color: #0b1020;
+  cursor: pointer;
+}

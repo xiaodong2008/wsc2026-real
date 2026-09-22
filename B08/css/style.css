@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+main {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 48px 20px;
+}
+
+.kicker {
+  margin: 0;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+h1 { margin: 8px 0 0; }
+
+.count { color: #cbd5e1; }
+
+.playlist,
+#playlist {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #334155;
+}
+
+.fav {
+  background: none;
+  border: 0;
+  color: #64748b;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.track--fav .fav { color: #fb7185; }
