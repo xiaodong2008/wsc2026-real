@@ -145,21 +145,6 @@ img.src = url
 
 `src` 要写在 `onload` 后面，否则缓存图片可能在你赋值 onload 之前就加载完了。
 
-连点两个相框时，先发出去的请求可能后到，把最后一次选择盖掉。用序号丢掉过期的：
-
-```js
-let frameSeq = 0
-async function loadFrame(src) {
-  const mine = ++frameSeq
-  const img = new Image()
-  img.src = src
-  await img.decode()
-  if (mine !== frameSeq) return
-  frameImg = img
-  redraw()
-}
-```
-
 ## 用户选的文件
 
 ```js
