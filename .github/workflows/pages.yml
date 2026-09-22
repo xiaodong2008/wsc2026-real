@@ -33,7 +33,7 @@ jobs:
         working-directory: docs-site
         run: npm run docs:build
         env:
-          DOCS_BASE: /wsc2026-real/
+          DOCS_BASE: /
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
