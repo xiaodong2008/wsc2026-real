@@ -13,16 +13,13 @@
 
 ## 出席码
 
-这份练习数据的 JSON **没有** `code` 字段。成品先读 `session.code`，没有再按 id 生成。现场如果 JSON 里有 code，就用 JSON 的。
+出席码在 `schedule.json` 的 `code` 字段里。详情页和印章校验读同一个字段，不要自己哈希。输入时 `trim().toLowerCase()` 再比。
 
 ```js
 export function codeOf(session) {
-  if (session && session.code) return String(session.code).trim().toLowerCase()
-  return (String(session.id) + 'a7k3m9qx').slice(0, 8)
+  return String(session.code).trim().toLowerCase()
 }
 ```
-
-现场 JSON 里有 `code` 就用它。没有的话，上面这行已经是 8 位、同一场永远同一个码。不需要自己写哈希。输入时 `trim().toLowerCase()` 再比。
 
 ## 头像文件名
 

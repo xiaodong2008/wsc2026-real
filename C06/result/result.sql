@@ -1,7 +1,8 @@
 -- Submission query. Check the media schema before changing column names.
 -- Month filter is on screenings, not bookings.
--- Exclude cancelled. Here that is status <> 'cancelled'.
--- If the schema uses a flag instead, switch to one of:
+-- Count only completed bookings. Excluding cancelled is not the same thing
+-- if the schema has a third status. Check the real column before submitting.
+--   AND b.status = 'completed'
 --   AND b.is_cancelled = 0
 --   AND b.cancelled_at IS NULL
 -- Revenue of 500 is excluded: HAVING ... > 500, not >= 500.
@@ -12,7 +13,7 @@ SELECT m.movie_title,
 FROM bookings b
 JOIN screenings s ON s.screening_id = b.screening_id
 JOIN movies m ON m.movie_id = s.movie_id
-WHERE b.status <> 'cancelled'
+WHERE b.status = 'completed'
   AND s.screening_date >= '2026-03-01'
   AND s.screening_date < '2026-04-01'
 GROUP BY m.movie_id, m.movie_title

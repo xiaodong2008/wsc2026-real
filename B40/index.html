@@ -31,7 +31,7 @@
       return d;
     });
 
-    let offset = 0;
+    let offset = TOTAL / 2;
     function render() {
       items.forEach((el, i) => {
         const y = ((i * SPACING - offset) % TOTAL + TOTAL) % TOTAL - TOTAL / 2;
@@ -45,7 +45,7 @@
 
     addEventListener('wheel', (e) => {
       e.preventDefault();
-      offset += e.deltaY;
+      offset -= e.deltaY;
       render();
     }, { passive: false });
 

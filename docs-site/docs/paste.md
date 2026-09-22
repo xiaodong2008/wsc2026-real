@@ -62,7 +62,7 @@ body { display: grid; place-items: center; perspective: 1200px; }
 
 ```css
 .card { transition: transform .45s, filter .45s, background-position .6s; }
-.container:hover .card:not(:hover) { filter: blur(4px); transform: scale(.92); }
+.container:has(.card:hover) .card:not(:hover) { filter: blur(4px); transform: scale(.92); }
 .card:hover { background-position: 100% 0; }
 .card .card-content { opacity: 0; transform: translateY(24px); transition: opacity .45s, transform .45s; }
 .card:hover .card-content { opacity: 1; transform: translateY(0); }
@@ -106,7 +106,7 @@ favCount.textContent = favs().length;
 
 ## B19 拼块图是反的
 
-`background-position` 两个值都是负的。`targetX` 从 100 到 540。
+`background-position` 两个值都是负的。`targetX` 从 100 到 540。显示成功文字的元素不要命名为 `status`：`window.status` 是浏览器内建属性，赋值会静默失败。用 `const statusEl = document.getElementById('status')`。stub 里已经有的 `const` 不要再声明一次。
 
 ```js
 piece.style.backgroundPosition = `-${targetX}px -${HOLE_Y}px`;
@@ -134,7 +134,8 @@ onmousemove = (e) => [...h.children].forEach((x) => {
 
 ```js
 const y = ((i * SPACING - offset) % TOTAL + TOTAL) % TOTAL - TOTAL / 2;
-addEventListener('wheel', (e) => { e.preventDefault(); offset += e.deltaY; render(); }, { passive: false });
+let offset = TOTAL / 2;
+addEventListener('wheel', (e) => { e.preventDefault(); offset -= e.deltaY; render(); }, { passive: false });
 ```
 
 `translate(-50%, -50%)` 放在 `transform` 最前面。`perspective` 写在容器上。
@@ -149,7 +150,7 @@ SELECT m.movie_title,
 FROM bookings b
 JOIN screenings s ON s.screening_id = b.screening_id
 JOIN movies m ON m.movie_id = s.movie_id
-WHERE b.status <> 'cancelled'
+WHERE b.status = 'completed'
   AND s.screening_date >= '2026-03-01'
   AND s.screening_date < '2026-04-01'
 GROUP BY m.movie_id, m.movie_title
@@ -157,7 +158,7 @@ HAVING ROUND(SUM(b.seats * b.price_per_seat), 2) > 500
 ORDER BY total_revenue DESC, m.movie_title ASC;
 ```
 
-现场如果取消字段不是 `status`，改成 `is_cancelled = 0` 或 `cancelled_at IS NULL`。列名以 media 里的 schema 为准。
+「只算 completed」不是「排除 cancelled」。枚举里如果还有第三种状态，`<> 'cancelled'` 会把那种单也加进去。先看 schema 再用 `status = 'completed'`、`is_cancelled = 0` 或 `cancelled_at IS NULL`。列名以 media 为准。
 
 ## C08 total 是 27
 
@@ -186,7 +187,7 @@ const room = rooms.find((item) => String(item.id) === String(body.room_id));
 if (!room) return send(res, 404, { error: 'Room not found' });
 if (!(body.attendees >= 1 && body.attendees <= room.capacity))
   return send(res, 422, { error: 'Room capacity exceeded' });
-if (!(body.start >= '08:00' && body.end <= '20:00'))
+if (!(body.start >= '08:00' && body.start <= '20:00' && body.end >= '08:00' && body.end <= '20:00'))
   return send(res, 422, { error: 'Outside opening hours' });
 if (!(body.end > body.start))
   return send(res, 422, { error: 'Invalid time range' });
@@ -196,9 +197,10 @@ const clash = bookings.find((item) =>
   body.start < item.end && item.start < body.end);
 if (clash) return send(res, 409, { error: `Time slot conflicts with booking ${clash.id}` });
 const id = Math.max(0, ...bookings.map((item) => Number(item.id))) + 1;
+bookings.push(booking);
 ```
 
-错误字段名跟 starter 的 404 保持一致。
+`21:00` 到 `19:00` 两个端点不都在 08:00–20:00 里，要先返回 Outside opening hours，不能漏到 Invalid time range。成功后必须 `push`，否则同一时段再订一次还会 201。错误字段名跟 starter 的 404 保持一致。
 
 ## Starter02 时间不在源代码里
 

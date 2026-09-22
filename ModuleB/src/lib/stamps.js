@@ -1,8 +1,7 @@
 const KEY = 'wsc2026-stamps'
 
 export function codeOf(session) {
-  if (session && session.code) return String(session.code).trim().toLowerCase()
-  return (String(session.id) + 'a7k3m9qx').slice(0, 8)
+  return String(session.code).trim().toLowerCase()
 }
 
 export function loadCollected() {

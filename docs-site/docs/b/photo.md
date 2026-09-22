@@ -1,6 +1,6 @@
 # Photo
 
-对应 `ModuleB/src/views/PhotoView.vue` 和 `src/lib/frames.js`。这一块不依赖 JSON，数据卡住时可以先做它。
+对应 `ModuleB/src/views/PhotoView.vue` 和 `src/lib/frames.js`。按用时推出来它大约 4.50，比 Schedule 还重，不要留到最后。这一块不依赖 JSON，日程卡住时可以先做它。
 
 API 本身分开写了，Photo 页只保留比赛规则。画布见 [Canvas](/api/canvas)，分享和下载见 [Web Share](/api/webshare)。
 

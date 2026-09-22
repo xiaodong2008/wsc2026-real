@@ -12,6 +12,5 @@ const scene = document.getElementById('scene');
 const hole = document.getElementById('hole');
 const piece = document.getElementById('piece');
 const handle = document.getElementById('handle');
-const status = document.getElementById('status');
 
 /* ===== DO NOT EDIT ABOVE THIS LINE ===== */

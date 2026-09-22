@@ -7,7 +7,8 @@
     "endTime": "09:45",
     "room": "hall",
     "roomName": "Hall",
-    "day": 1
+    "day": 1,
+    "code": "0hzx88vc"
   },
   {
     "id": "8",
@@ -17,7 +18,8 @@
     "endTime": "14:45",
     "room": "hall",
     "roomName": "Hall",
-    "day": 2
+    "day": 2,
+    "code": "z91ga706"
   },
   {
     "id": "16",
@@ -27,6 +29,7 @@
     "endTime": "14:45",
     "room": "hall",
     "roomName": "Hall",
-    "day": 4
+    "day": 4,
+    "code": "6xuhtjbn"
   }
 ]

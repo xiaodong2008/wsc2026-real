@@ -58,7 +58,7 @@ const t = Math.max(0, 1 - d / 100)
 
 ## B30 专家短版
 
-题目要每个字母按自己到鼠标的距离连续变粗，不能一档一档跳。静态字体的 `font-weight: 437` 会吸到 400 或 500。`-webkit-text-stroke` 是连续的像素，任何字体都能用。
+题目要每个字母按自己到鼠标的距离连续变粗。没有可变字体时只设 `-webkit-text-stroke`，不要同时设 `font-weight`，否则看到的仍是一档一档跳。
 
 专家版本只看水平方向，距离用字母左边缘，描边最大 6px。文字先写在 `<h1>` 里再拆，空格换成 `&nbsp;`，否则两个词会粘住。`body` 还要有高度，`place-items: center` 才在视口正中。
 
@@ -120,15 +120,18 @@ pieceX = Math.round(hx * 540 / handleMax)
 
 ## B40 滚轮
 
-`wheel` 事件的 `deltaY` 向下滚是正的，向上是负的。位置累加它，方向就自动反了。
+`wheel` 事件的 `deltaY` 向下滚是正的。要让新字从上方进来、穿过中心再从下方出去，用减：
 
 ```js
+let offset = TOTAL / 2
 addEventListener('wheel', (e) => {
   e.preventDefault()
-  offset += e.deltaY
+  offset -= e.deltaY
   render()
 }, { passive: false })
 ```
+
+`offset` 从 `TOTAL / 2` 起。从 0 起时，中心正好落在两行字的空隙里，页面正中间是空的。
 
 `{ passive: false }` 才能 `preventDefault()`。否则浏览器当这个监听不会取消滚动，页面自己也会滚。
 

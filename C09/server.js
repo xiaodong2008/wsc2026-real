@@ -62,7 +62,9 @@ async function handle(req, res) {
       return send(res, 422, { error: 'Room capacity exceeded' });
     }
 
-    if (!(body.start >= '08:00' && body.end <= '20:00')) {
+    const opens = '08:00';
+    const closes = '20:00';
+    if (!(body.start >= opens && body.start <= closes && body.end >= opens && body.end <= closes)) {
       return send(res, 422, { error: 'Outside opening hours' });
     }
 

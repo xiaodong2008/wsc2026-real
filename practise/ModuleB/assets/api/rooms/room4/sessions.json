@@ -7,7 +7,8 @@
     "endTime": "09:45",
     "room": "room4",
     "roomName": "Room 4",
-    "day": 2
+    "day": 2,
+    "code": "0555knyk"
   },
   {
     "id": "10",
@@ -17,7 +18,8 @@
     "endTime": "10:45",
     "room": "room4",
     "roomName": "Room 4",
-    "day": 3
+    "day": 3,
+    "code": "cha2583k"
   },
   {
     "id": "14",
@@ -27,6 +29,7 @@
     "endTime": "10:45",
     "room": "room4",
     "roomName": "Room 4",
-    "day": 4
+    "day": 4,
+    "code": "asi5ney6"
   }
 ]

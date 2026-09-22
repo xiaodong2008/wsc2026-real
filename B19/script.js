@@ -12,9 +12,10 @@ const scene = document.getElementById('scene');
 const hole = document.getElementById('hole');
 const piece = document.getElementById('piece');
 const handle = document.getElementById('handle');
-const status = document.getElementById('status');
 
 /* ===== DO NOT EDIT ABOVE THIS LINE ===== */
+
+const statusEl = document.getElementById('status');
 
 const PIECE_MAX = 540;
 let targetX = 0;
@@ -30,7 +31,7 @@ function newChallenge() {
   const src = IMAGES[Math.floor(Math.random() * IMAGES.length)];
   scene.style.backgroundImage = `url(${src})`;
   scene.classList.remove('solved');
-  status.textContent = '';
+  statusEl.textContent = '';
   targetX = Math.floor(100 + Math.random() * (PIECE_MAX - 100 + 1));
   hole.style.left = targetX + 'px';
   hole.style.top = HOLE_Y + 'px';
@@ -67,7 +68,7 @@ handle.addEventListener('pointerup', () => {
     piece.style.left = targetX + 'px';
     solved = true;
     scene.classList.add('solved');
-    status.textContent = 'Success!';
+    statusEl.textContent = 'Success!';
     setTimeout(newChallenge, 1500);
   }
 });

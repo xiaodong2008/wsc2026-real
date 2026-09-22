@@ -58,7 +58,7 @@ body {
   transition: transform .45s, filter .45s, background-position .6s;
 }
 
-.container:hover .card:not(:hover) {
+.container:has(.card:hover) .card:not(:hover) {
   filter: blur(4px);
   transform: scale(.92);
 }
