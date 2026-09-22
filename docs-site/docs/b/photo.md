@@ -16,18 +16,15 @@ API 本身分开写了，Photo 页只保留比赛规则。画布见 [Canvas](/ap
 
 ## 切了比例画布却是空的
 
-必须等 `decode()` 结束再改 `canvas.width`。连点两张图时用序号丢掉过期的那次。
+必须等 `decode()` 结束再改 `canvas.width`。题目没有要求处理连点两次、先点的图后到，不用写序号。
 
 ```js
-let frameSeq = 0
 async function loadFrame() {
   const src = ratio.value === 'wide' ? design.value.wide : design.value.normal
   if (!src) return
-  const mine = ++frameSeq
   const img = new Image()
   img.src = src
   await img.decode()
-  if (mine !== frameSeq) return
   frameImg = img
   redraw()
 }

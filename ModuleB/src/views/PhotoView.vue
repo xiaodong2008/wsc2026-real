@@ -8,7 +8,6 @@ const hint = ref('')
 const canvas = ref(null)
 let userImg = null
 let frameImg = null
-let frameSeq = 0
 
 const design = computed(() => FRAMES.find((item) => item.id === designId.value))
 
@@ -34,11 +33,9 @@ function redraw() {
 async function loadFrame() {
   const src = ratio.value === 'wide' ? design.value.wide : design.value.normal
   if (!src) return
-  const mine = ++frameSeq
   const img = new Image()
   img.src = src
   await img.decode()
-  if (mine !== frameSeq) return
   frameImg = img
   redraw()
 }
