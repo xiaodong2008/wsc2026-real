@@ -16,9 +16,7 @@ const status = document.getElementById('status');
 
 /* ===== DO NOT EDIT ABOVE THIS LINE ===== */
 
-const SCENE_W = 600;
-const SIZE = 60;
-const PIECE_MAX = SCENE_W - SIZE;
+const PIECE_MAX = 540;
 let targetX = 0;
 let pieceX = 0;
 let solved = false;
@@ -26,52 +24,31 @@ let dragging = false;
 let startPointer = 0;
 let startHandle = 0;
 let handleMax = 0;
-let timer = null;
-
-const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-
 
 function newChallenge() {
-  if (timer) {
-    clearTimeout(timer);
-    timer = null;
-  }
   solved = false;
   const src = IMAGES[Math.floor(Math.random() * IMAGES.length)];
-
   scene.style.backgroundImage = `url(${src})`;
   scene.classList.remove('solved');
   status.textContent = '';
-
-  function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-  console.log(getRandomArbitrary(100,PIECE_MAX))
-  // targetX = getRandomArbitrary(100,PIECE_MAX) // 100 - PIECE_MAX
   targetX = Math.floor(100 + Math.random() * (PIECE_MAX - 100 + 1));
-
   hole.style.left = targetX + 'px';
   hole.style.top = HOLE_Y + 'px';
-
   piece.style.backgroundImage = `url(${src})`;
-  piece.style.backgroundSize = `${SCENE_W}px 400px`;
   piece.style.backgroundPosition = `-${targetX}px -${HOLE_Y}px`;
   piece.style.top = HOLE_Y + 'px';
-
   handleMax = handle.parentElement.clientWidth - handle.offsetWidth;
   setHandle(0);
 }
 
 function setHandle(hx) {
-  hx = clamp(hx, 0, handleMax);
+  hx = Math.max(0, Math.min(handleMax, hx));
   handle.style.left = hx + 'px';
   pieceX = Math.round(hx * PIECE_MAX / handleMax);
   piece.style.left = pieceX + 'px';
-  return hx;
 }
 
 handle.style.touchAction = 'none';
-
 handle.addEventListener('pointerdown', (e) => {
   if (solved) return;
   dragging = true;
@@ -79,27 +56,20 @@ handle.addEventListener('pointerdown', (e) => {
   startHandle = parseFloat(handle.style.left) || 0;
   handle.setPointerCapture(e.pointerId);
 });
-
 handle.addEventListener('pointermove', (e) => {
   if (!dragging) return;
   setHandle(startHandle + (e.clientX - startPointer));
 });
-
-function end(e) {
+handle.addEventListener('pointerup', () => {
   if (!dragging) return;
   dragging = false;
-  try { handle.releasePointerCapture(e.pointerId); } catch {}
-
   if (Math.abs(pieceX - targetX) <= TOLERANCE) {
     piece.style.left = targetX + 'px';
     solved = true;
     scene.classList.add('solved');
     status.textContent = 'Success!';
-    timer = setTimeout(newChallenge, 1500);
+    setTimeout(newChallenge, 1500);
   }
-}
-
-handle.addEventListener('pointerup', end);
-handle.addEventListener('pointercancel', end);
+});
 
 newChallenge();

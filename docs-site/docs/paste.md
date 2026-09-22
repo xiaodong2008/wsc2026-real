@@ -88,24 +88,20 @@ button:active { transform: scale(.9); }
 用 `sessionStorage`。不要再次声明标记上面的 `playlist`、`favCount`、`STORAGE_KEY`。
 
 ```js
-const tracks = () => [...playlist.querySelectorAll('.track')];
-const keyOf = (li) => li.dataset.id ?? String(tracks().indexOf(li));
-function render() { favCount.textContent = playlist.querySelectorAll('.track--fav').length; }
-function save() {
-  const favs = tracks().filter((t) => t.classList.contains('track--fav')).map(keyOf);
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
-}
+const favs = () => [...playlist.querySelectorAll('.track--fav')];
 playlist.addEventListener('click', (e) => {
   const btn = e.target.closest('.fav');
   if (!btn) return;
   btn.closest('.track').classList.toggle('track--fav');
-  render(); save();
+  const ids = favs().map((li) => li.dataset.id);
+  favCount.textContent = ids.length;
+  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
 });
-try {
-  const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || [];
-  tracks().forEach((li) => { if (saved.includes(keyOf(li))) li.classList.add('track--fav'); });
-} catch {}
-render();
+const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]');
+playlist.querySelectorAll('.track').forEach((li) => {
+  if (saved.includes(li.dataset.id)) li.classList.add('track--fav');
+});
+favCount.textContent = favs().length;
 ```
 
 ## B19 拼块图是反的

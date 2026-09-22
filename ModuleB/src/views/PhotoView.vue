@@ -25,7 +25,6 @@ function redraw() {
   const ctx = canvas.value.getContext('2d')
   canvas.value.width = width
   canvas.value.height = height
-  ctx.clearRect(0, 0, width, height)
   if (userImg) drawCover(ctx, userImg, width, height)
   ctx.drawImage(frameImg, 0, 0, width, height)
 }

@@ -18,11 +18,11 @@
 ```js
 export function codeOf(session) {
   if (session && session.code) return String(session.code).trim().toLowerCase()
-  return hashCode(session.id)
+  return (String(session.id) + 'a7k3m9qx').slice(0, 8)
 }
 ```
 
-`hashCode` 在 `ModuleB/src/lib/stamps.js`。同一个 id 永远同一个码。输入时 `trim().toLowerCase()` 再比。
+现场 JSON 里有 `code` 就用它。没有的话，上面这行已经是 8 位、同一场永远同一个码。不需要自己写哈希。输入时 `trim().toLowerCase()` 再比。
 
 ## 头像文件名
 
